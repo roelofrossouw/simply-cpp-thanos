@@ -40,7 +40,8 @@ fi
 
 rm -rf pkg work/extracted
 mkdir -p pkg/DEBIAN pkg/usr/bin work/extracted
-tar xzf "work/$tarball" -C work/extracted
+# --no-same-owner: the build folder is on NFS, where chown to the tarball's owner fails.
+tar xzf "work/$tarball" --no-same-owner -C work/extracted
 install -m 755 "work/extracted/thanos-${version}.linux-amd64/thanos" pkg/usr/bin/thanos
 
 cat > pkg/DEBIAN/control <<EOF
